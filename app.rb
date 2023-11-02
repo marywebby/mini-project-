@@ -1,9 +1,28 @@
 require "sinatra"
 require "sinatra/reloader"
 
+require "http"
+
 get("/") do
-  "
-  <h1>Welcome to your Sinatra App!</h1>
-  <p>Define some routes in app.rb</p>
-  "
+  api_url = "https://api.artic.edu/api/v1/artworks/"
+
+  raw_data = HTTP.get(api_url) 
+  
+  raw_data_string = raw_data.to_s
+
+  parsed_data = JSON.parse(raw_data_string)
+
+  @art = parsed_data.fetch("data")
+
+  erb(:homepage)
+end
+
+get("/random_art") do 
+  erb(:get_random_art_num)
+end
+
+get("/display_random_art") do
+  @random_num = params.fetch("random_num").to_i
+
+  erb(:display_random_art)
 end
