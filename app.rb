@@ -4,7 +4,7 @@ require "sinatra/reloader"
 require "http"
 
 get("/") do
-  api_url = "https://api.artic.edu/api/v1/artworks/"
+  api_url = "https://api.artic.edu/api/v1/artworks"
 
   raw_data = HTTP.get(api_url) 
   
@@ -12,7 +12,7 @@ get("/") do
 
   parsed_data = JSON.parse(raw_data_string)
 
-  @art = parsed_data.fetch("data")
+  @artwork_ids = parsed_data["data"].map { |artwork| artwork["id"] }
 
   erb(:homepage)
 end
