@@ -23,6 +23,9 @@ end
 
 get("/display_random_art") do
   @random_num = params.fetch("random_num").to_i
-
-  erb(:display_random_art)
+  if @random_num == 1
+    erb(:display_one)
+  else  
+    erb(:display_random_art)
+  end
 end
